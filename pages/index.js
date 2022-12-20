@@ -147,16 +147,16 @@ export default function Home() {
       let downloads = res.data;
       let downloadData = downloads.map((download) => {
         let down = download.data;
-        const { FullName, Matric, Section, datetime, remark, ReportFile } =
+        const { FullName, MatricNumber, Section, datetime, remark, Report } =
           down;
 
         return {
           Name: FullName,
-          Matric: Matric,
+          Matric: MatricNumber,
           Section: Section,
           DateTime: datetime,
           Remark: remark,
-          ReportFile: ReportFile.url,
+          Report: Report.url,
         };
       });
       setdownload(downloadData);
@@ -277,10 +277,7 @@ export default function Home() {
                   <option value="Regular">Regular</option>
                   <option value="DirectEntry">Direct Entry</option>
                 </select>
-                <label className="block mt-3 font-semibold">
-                  {" "}
-                  File Upload{" "}
-                </label>
+                <label className="block mt-3 font-semibold"> File Upload</label>
                 <input
                   type="file"
                   name="Report"
@@ -301,7 +298,9 @@ export default function Home() {
             </div>
           </form>
         </div>
-        <Table />
+        <LoginContext.Provider value={{ students: currentStudents, loading }}>
+          <Table />
+        </LoginContext.Provider>
       </div>
     </>
   );

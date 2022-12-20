@@ -1,6 +1,9 @@
 import React from "react";
+import { useContext } from "react";
+import { LoginContext } from "./Context";
 
 const Table = () => {
+  const { students, loading } = useContext(LoginContext);
   return (
     <div>
       <div className="flex justify-center mx-20 overflow-x-auto relative shadow-md sm:rounded-lg pb-20">
@@ -25,63 +28,26 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Apple MacBook Pro 17"
-              </th>
-              <td className="py-4 px-6">Sliver</td>
-              <td className="py-4 px-6">Laptop</td>
-              <td className="py-4 px-6">$2999</td>
-              <td className="py-4 px-6 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            {" "}
+            {students.map((students, index) => {
+              return (
+                <tr
+                  key={index}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  Edit
-                </a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Microsoft Surface Pro
-              </th>
-              <td className="py-4 px-6">White</td>
-              <td className="py-4 px-6">Laptop PC</td>
-              <td className="py-4 px-6">$1999</td>
-              <td className="py-4 px-6 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Magic Mouse 2
-              </th>
-              <td className="py-4 px-6">Black</td>
-              <td className="py-4 px-6">Accessories</td>
-              <td className="py-4 px-6">$99</td>
-              <td className="py-4 px-6 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-              </td>
-            </tr>
+                  <th
+                    scope="row"
+                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {students.data.FullName}
+                  </th>
+                  <td className="py-4 px-6">{students.data.MatricNumber}</td>
+                  <td className="py-4 px-6">{students.data.Class}</td>
+                  <td className="py-4 px-6">{students.data.datetime}</td>
+                  <td className="py-4 px-6 ">{students.data.remark}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
