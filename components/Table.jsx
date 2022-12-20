@@ -6,29 +6,28 @@ const Table = () => {
   const { students, loading } = useContext(LoginContext);
   return (
     <div>
-      <div className="flex justify-center mx-20 overflow-x-auto relative shadow-md sm:rounded-lg pb-20">
+      <div className="flex justify-center md:mx-20 overflow-x-auto relative shadow-md sm:rounded-lg pb-20">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-white uppercase bg-purple-500 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="py-3 px-6">
+              <th scope="col" className="sm:px-3 md:px-6 py-3">
                 Name
               </th>
-              <th scope="col" className="py-3 px-6">
+              <th scope="col" className="sm:px-3 md:px-6 py-3 ">
                 Matric
               </th>
-              <th scope="col" className="py-3 px-6">
+              <th scope="col" className="sm:px-3 md:px-6 py-3 ">
                 Category
               </th>
-              <th scope="col" className="py-3 px-6">
+              <th scope="col" className="sm:px-3 md:px-6 py-3">
                 TimeStamp
               </th>
-              <th scope="col" className="py-3 px-6">
+              <th scope="col" className="sm:px-3 md:px-6 py-3">
                 Status
               </th>
             </tr>
           </thead>
           <tbody>
-            {" "}
             {students.map((students, index) => {
               return (
                 <tr
@@ -41,10 +40,18 @@ const Table = () => {
                   >
                     {students.data.FullName}
                   </th>
-                  <td className="py-4 px-6">{students.data.MatricNumber}</td>
-                  <td className="py-4 px-6">{students.data.Class}</td>
-                  <td className="py-4 px-6">{students.data.datetime}</td>
-                  <td className="py-4 px-6 ">{students.data.remark}</td>
+                  <td className="py-4 sm:px-3 md:px-6">
+                    {students.data.MatricNumber}
+                  </td>
+                  <td className="py-4 sm:px-3 md:px-6">
+                    {students.data.Class}
+                  </td>
+                  <td className="py-4 sm:px-3 md:px-6">
+                    {students.data.datetime}
+                  </td>
+                  <td className="py-4 sm:px-3 md:px-6 ">
+                    {students.data.remark}
+                  </td>
                 </tr>
               );
             })}

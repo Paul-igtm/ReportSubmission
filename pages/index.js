@@ -1,9 +1,5 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
 import Table from "../components/Table";
-import Form from "../components/Form";
+
 import { LoginContext, ThankContext } from "../components/Context";
 import Deadline from "../components/Deadline";
 import exportFromJSON from "export-from-json";
@@ -19,8 +15,7 @@ export default function Home() {
   const [remark, setRemark] = useState("");
   const [removeTimer, setRemoveTimer] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [studentsPerPage, setStudentsPerPage] = useState(5);
+
   const [datetime, setDatetime] = useState("");
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
@@ -28,7 +23,7 @@ export default function Home() {
   const [seconds, setSeconds] = useState(0);
   const [deadlineDisplay, setdeadlineDisplay] = useState("");
 
-  const deadline = new Date("12/21/2022 12:00");
+  const deadline = new Date("12/20/2022 12:00");
 
   //Conversions
   const second = 1000;
@@ -97,15 +92,11 @@ export default function Home() {
       setRemark("-60");
       setsubmit(true);
     } else if (hours <= -2) {
-      setdeadlineDisplay(
-        "Deadline has been exceeded! You cant submit any longer"
-      );
+      setdeadlineDisplay("Deadline has been exceeded! ");
       setRemoveTimer(true);
       setsubmit(false);
     } else if (days < -1) {
-      setdeadlineDisplay(
-        "Deadline has been exceeded! You can't submit any longer"
-      );
+      setdeadlineDisplay("Deadline has been exceeded!");
       setsubmit(false);
       setRemoveTimer(true);
     }
@@ -168,14 +159,6 @@ export default function Home() {
 
   const data = download;
 
-  //Exports to CSV file
-
-  const ExporttoCSV = () => {
-    const fileName = "reportsubmitions";
-    const exportType = "csv";
-
-    exportFromJSON({ data, fileName, exportType });
-  };
   const ExporttoXLS = () => {
     const fileName = "reportsubmissions";
     const exportType = "xls";
@@ -183,22 +166,36 @@ export default function Home() {
     exportFromJSON({ data, fileName, exportType });
   };
 
-  //Get Current Posts
-  const indexOfLastStudent = currentPage * studentsPerPage;
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(
-    indexOfFirstStudent,
-    indexOfLastStudent
-  );
-  //Change Page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   return (
     <>
-      <div className="">
-        <h1 className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#4900EE] to-indigo-600 drop-shadow-2xl">
+      <div className="w-full">
+        <h1 className="font-bold text-center text-2xl text-transparent bg-clip-text bg-gradient-to-r from-black to-black drop-shadow-2xl">
           Project Report Submission
         </h1>
+        <div className="flex justify-center pt-3 pb-5">
+          {session ? (
+            <button
+              onClick={() => router.push("api/auth/signout")}
+              class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              data-rounded="rounded-md"
+              data-primary="blue-600"
+              data-primary-reset="{}"
+            >
+              Admin Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("api/auth/signin")}
+              class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              data-rounded="rounded-md"
+              data-primary="blue-600"
+              data-primary-reset="{}"
+            >
+              Admin Login
+            </button>
+          )}
+        </div>
+
         <div className="flex justify-center mb-20">
           <form
             id="form"
@@ -298,7 +295,20 @@ export default function Home() {
             </div>
           </form>
         </div>
-        <LoginContext.Provider value={{ students: currentStudents, loading }}>
+        {session ? (
+          <div className="flex  justify-center">
+            <button
+              class="mb-5 inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              data-rounded="rounded-md"
+              data-primary="blue-600"
+              data-primary-reset="{}"
+              onClick={ExporttoXLS}
+            >
+              Download Submissions
+            </button>
+          </div>
+        ) : null}
+        <LoginContext.Provider value={{ students, loading }}>
           <Table />
         </LoginContext.Provider>
       </div>
